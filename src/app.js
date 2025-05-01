@@ -61,7 +61,7 @@ const displayCards = (deck) => {
   });
 };
 
-const selectionSort = (deck) => {
+const bubbleSort = (deck) => {
   const sortingHistory = document.getElementById("sortingHistory");
   sortingHistory.innerHTML = "";
 
@@ -85,30 +85,25 @@ const selectionSort = (deck) => {
 
     stepContainer.appendChild(cardsContainer);
     sortingHistory.appendChild(stepContainer);
-};
+  };
 
   showStep(deck, 0, true);
 
   let stepCount = 1;
   const n = deck.length;
-  
-  for (let i = 0; i < n; i++) {
-    let min = i;
 
-    for (let j = i + 1; j < n; j++) {
-      if (deck[j].value < deck[min].value) {
-        min = j;
+  for (let i = 0; i < n - 1; i++) {
+    for (let j = 0; j < n - i - 1; j++) {
+      if (deck[j].value > deck[j + 1].value) {
+        // Intercambiar elementos
+        let temp = deck[j];
+        deck[j] = deck[j + 1];
+        deck[j + 1] = temp;
+
+        steps.push([...deck]);
+        showStep(deck, stepCount);
+        stepCount++;
       }
-    }
-
-    if (min !== i) {
-      let temp = deck[i];
-      deck[i] = deck[min];
-      deck[min] = temp;
-
-      steps.push([...deck]);
-      showStep(deck, stepCount);
-      stepCount++;
     }
   }
 
@@ -137,7 +132,7 @@ window.onload = () => {
 
   sortButton.addEventListener("click", () => {
     if (currentDeck.length > 0) {
-      selectionSort(currentDeck);
+      bubbleSort(currentDeck);
     }
   });
 };
